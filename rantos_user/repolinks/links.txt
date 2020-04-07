@@ -1,0 +1,24 @@
+Route transistions:
+https://medium.com/flutter-community/everything-you-need-to-know-about-flutter-page-route-transition-9ef5c1b32823
+
+Custom dialog:
+https://medium.com/@excogitatr/custom-dialog-in-flutter-d00e0441f1d5
+
+Named routes:
+https://flutter.dev/docs/cookbook/navigation/named-routes
+
+Stack og indexed stack:
+https://www.google.com/search?sxsrf=ALeKk00GkwFcOVJZgwtk0pWid5FrZRTG8w%3A1584128636010&ei=fOJrXq8HyLqTBZDTFg&q=indekxed+stack+flutter&oq=indekxed+stack+flutter&gs_l=psy-ab.3..0i13j0i22i30l2.409573.412798..412863...0.2..0.150.2260.6j15......0....1..gws-wiz.......0i71j0i273j0j35i39j0i67j0i203j0i13i30j0i13i10i30j0i22i10i30j0i13i5i30j0i8i13i10i30j0i8i13i30.3h9gOHo2rps&ved=0ahUKEwivtYKFm5joAhVI3aQKHZCpBQAQ4dUDCAo&uact=5
+
+Layout cheat sheet:
+https://medium.com/flutter-community/flutter-layout-cheat-sheet-5363348d037e
+
+Pageview:
+https://medium.com/zipper-studios/create-a-custom-pageview-with-flutter-dfff43649c23
+og
+https://medium.com/flutter-community/flutter-pageview-widget-e0f6c8092636
+
+Shared preferences (ikke sikker):
+https://pub.dev/packages/shared_preferences#-analysis-tab-
+og
+https://github.com/flutter/flutter/issues/15307
