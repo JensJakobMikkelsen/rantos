@@ -27,7 +27,7 @@ class MapObject {
   final Widget child;
 
   ///relative offset from the center of the map for this map object. From -1 to 1 in each dimension.
-  final Offset offset;
+  Offset offset;
 
   ///size of this object for the zoomLevel == 1
   final Size size;
@@ -183,9 +183,11 @@ class _ImageViewportState extends State<ImageViewport> {
             onTapUp: (TapUpDetails details) {
 
               if(controlState) {
+
                 Dialog errorDialog = Dialog(
+                  backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
+                      borderRadius: BorderRadius.circular(1.0)),
                   //this right here
                   child: Container(
                     height: 300.0,
@@ -195,24 +197,151 @@ class _ImageViewportState extends State<ImageViewport> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.all(15.0),
+                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Text(
                             'Cool', style: TextStyle(color: Colors.red),),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                            'Awesome', style: TextStyle(color: Colors.red),),
+
+                        Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(50, 0, 0, 0),
+                            child: IconButton(
+                              color: Colors.red,
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: ()
+                              {
+                                MapObject newObject;
+                                Offset off = Offset(object.offset.dx - 0.01, object.offset.dy);
+
+                                newObject = MapObject(
+                                  child: Container(
+                                    color: Colors.red,
+                                  ),
+                                  offset: off,
+                                  size: Size(100, 100),
+                                );
+                                addMapObject(newObject);
+                                if(object != null) {
+                                  removeMapObject(object);
+                                }
+                                object = newObject;
+                                /*
+                                setState(() {
+                                  _zoomLevel = _zoomLevel * 2;
+                                }
+                                );
+                                 */
+                              },
+                            ),
+                          ),
+
+                            IconButton(
+                              color: Colors.red,
+                              icon: Icon(Icons.arrow_forward),
+                              onPressed: ()
+                              {
+                                MapObject newObject;
+                                Offset off = Offset(object.offset.dx + 0.01, object.offset.dy);
+
+                                newObject = MapObject(
+                                  child: Container(
+                                    color: Colors.red,
+                                  ),
+                                  offset: off,
+                                  size: Size(100, 100),
+                                );
+                                addMapObject(newObject);
+                                if(object != null) {
+                                  removeMapObject(object);
+                                }
+                                object = newObject;
+                              },
+                            ),
+                            IconButton(
+                              color: Colors.red,
+                              icon: Icon(Icons.arrow_upward),
+                              onPressed: ()
+                              {
+                                MapObject newObject;
+                                Offset off = Offset(object.offset.dx, object.offset.dy - 0.01);
+
+                                newObject = MapObject(
+                                  child: Container(
+                                    color: Colors.red,
+                                  ),
+                                  offset: off,
+                                  size: Size(100, 100),
+                                );
+                                addMapObject(newObject);
+                                if(object != null) {
+                                  removeMapObject(object);
+                                }
+                                object = newObject;
+
+                              },
+                            ),
+                            IconButton(
+                              color: Colors.red,
+                              icon: Icon(Icons.arrow_downward),
+                              onPressed: ()
+                              {
+                                MapObject newObject;
+                                Offset off = Offset(object.offset.dx, object.offset.dy + 0.01);
+
+                                newObject = MapObject(
+                                  child: Container(
+                                    color: Colors.red,
+                                  ),
+                                  offset: off,
+                                  size: Size(100, 100),
+                                );
+                                addMapObject(newObject);
+                                if(object != null) {
+                                  removeMapObject(object);
+                                }
+                                object = newObject;
+                              },
+                            ),
+                           ]
                         ),
-                        Padding(padding: EdgeInsets.only(top: 50.0)),
-                        FlatButton(onPressed: () {
-                          removeMapObject(object);
-                          Navigator.of(context).pop();
-                        },
-                            child: Text('Remove table', style: TextStyle(
-                                color: Colors.purple, fontSize: 18.0),))
+                        Column(
+                          children: <Widget>[
+                            FlatButton(onPressed: () {
+
+                              Dialog choiseDialog = Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                                //this right here
+                                child: Container(
+                                  height: 300.0,
+                                  width: 300.0,
+
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(padding: EdgeInsets.only(top: 50.0)),
+                                      FlatButton(onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                          child: Text('Choose Table', style: TextStyle(
+                                              color: Colors.purple, fontSize: 18.0),))
 
 
+                                    ],
+                                  ),
+                                ),
+                              );
+                              showDialog(context: context,
+                                  builder: (BuildContext context) => choiseDialog);
+
+                              //Navigator.of(context).pop();
+                            }, child: Text("abe"),
+                            ),
+
+                          ],
+
+                        ),
                       ],
                     ),
                   ),
@@ -247,10 +376,9 @@ class _ImageViewportState extends State<ImageViewport> {
                   );
                   showDialog(context: context,
                       builder: (BuildContext context) => errorDialog);
-
                 }
-
             },
+
             child: Container(
               width: object.size == null ? null : object.size.width * _zoomLevel,
               height: object.size == null ? null : object.size.height * _zoomLevel,
@@ -261,8 +389,6 @@ class _ImageViewportState extends State<ImageViewport> {
       )
           .toList();
     }
-
-
     return _resolved
         ? LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -277,6 +403,7 @@ class _ImageViewportState extends State<ImageViewport> {
         }
 
         return GestureDetector(
+
           onPanUpdate: reactOnPan ? handleDrag : null,
           onHorizontalDragUpdate: reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
           onVerticalDragUpdate: !reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
@@ -317,7 +444,7 @@ class _ImageViewportState extends State<ImageViewport> {
                 painter: MapPainter(_image, _zoomLevel, _centerOffset),
               ),
 
-            ] +
+            ]+
                 buildObjects(),
           ),
         );
@@ -468,6 +595,60 @@ class _MapDemoState extends State<MapDemo> {
 
     if(controlState) {
       return Scaffold(
+        //https://medium.com/flutterpub/flutter-navigation-drawer-from-basic-to-custom-drawer-66a60d27d687
+        //drawer
+        //For full screen: //For full screen:
+        //          /*
+        //          drawer: Container(
+        //            width: MediaQuery.of(context).size.width,
+        //            height: MediaQuery.of(context).size.height,
+        //            color: Colors.white,
+        //            child: ListView(
+        //              padding: EdgeInsets.zero,
+        //              children: [
+        //                DrawerHeader(
+        //                  decoration: BoxDecoration(
+        //                      image: DecorationImage(
+        //                          image: AssetImage("images/header.jpeg"),
+        //                          fit: BoxFit.cover)),
+        //                  child: Text("Header"),
+        //                ),
+        //                ListTile(
+        //                  title: Text("Home"),
+        //                  onTap: () {
+        //                    Navigator.of(context).pop();
+        //                  },
+        //                )
+        //              ],
+        //            ),
+        //          ),
+        //
+        //           */
+
+        endDrawer: Drawer(
+
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("images/header.jpeg"),
+                        fit: BoxFit.cover
+                    )
+                ),
+                child: Text("Header"), //Or column
+              ),
+              ListTile(
+                title: Text("Home"),
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        ),
+
         appBar: AppBar(
           title: Text("Move the map"),
         ),
