@@ -184,10 +184,9 @@ class _ImageViewportState extends State<ImageViewport> {
 
               if(controlState) {
 
-                Dialog errorDialog = Dialog(
-                  backgroundColor: Colors.transparent,
+                Dialog choiceDialog = Dialog(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(1.0)),
+                      borderRadius: BorderRadius.circular(12.0)),
                   //this right here
                   child: Container(
                     height: 300.0,
@@ -196,162 +195,189 @@ class _ImageViewportState extends State<ImageViewport> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Text(
-                            'Cool', style: TextStyle(color: Colors.red),),
-                        ),
+                        Padding(padding: EdgeInsets.only(top: 50.0)),
+                        FlatButton(onPressed: () {
 
-                        Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50, 0, 0, 0),
-                            child: IconButton(
-                              color: Colors.red,
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: ()
-                              {
-                                MapObject newObject;
-                                Offset off = Offset(object.offset.dx - 0.01, object.offset.dy);
+                          Dialog moveDialog = Dialog(
+                            backgroundColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(1.0)),
+                            //this right here
+                            child: Container(
+                              height: 300.0,
+                              width: 300.0,
 
-                                newObject = MapObject(
-                                  child: Container(
-                                    color: Colors.red,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                    child: Text(
+                                      'Cool', style: TextStyle(color: Colors.red),),
                                   ),
-                                  offset: off,
-                                  size: Size(100, 100),
-                                );
-                                addMapObject(newObject);
-                                if(object != null) {
-                                  removeMapObject(object);
-                                }
-                                object = newObject;
-                                /*
+
+                                  Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(50, 0, 0, 0),
+                                          child: IconButton(
+                                            color: Colors.red,
+                                            icon: Icon(Icons.arrow_back),
+                                            onPressed: ()
+                                            {
+                                              MapObject newObject;
+                                              Offset off = Offset(object.offset.dx - 0.01, object.offset.dy);
+
+                                              newObject = MapObject(
+                                                child: Container(
+                                                  color: Colors.red,
+                                                ),
+                                                offset: off,
+                                                size: Size(100, 100),
+                                              );
+                                              addMapObject(newObject);
+                                              if(object != null) {
+                                                removeMapObject(object);
+                                              }
+                                              object = newObject;
+                                              /*
                                 setState(() {
                                   _zoomLevel = _zoomLevel * 2;
                                 }
                                 );
                                  */
-                              },
-                            ),
-                          ),
+                                            },
+                                          ),
+                                        ),
 
-                            IconButton(
-                              color: Colors.red,
-                              icon: Icon(Icons.arrow_forward),
-                              onPressed: ()
-                              {
-                                MapObject newObject;
-                                Offset off = Offset(object.offset.dx + 0.01, object.offset.dy);
+                                        IconButton(
+                                          color: Colors.red,
+                                          icon: Icon(Icons.arrow_forward),
+                                          onPressed: ()
+                                          {
+                                            MapObject newObject;
+                                            Offset off = Offset(object.offset.dx + 0.01, object.offset.dy);
 
-                                newObject = MapObject(
-                                  child: Container(
-                                    color: Colors.red,
+                                            newObject = MapObject(
+                                              child: Container(
+                                                color: Colors.red,
+                                              ),
+                                              offset: off,
+                                              size: Size(100, 100),
+                                            );
+                                            addMapObject(newObject);
+                                            if(object != null) {
+                                              removeMapObject(object);
+                                            }
+                                            object = newObject;
+                                          },
+                                        ),
+                                        IconButton(
+                                          color: Colors.red,
+                                          icon: Icon(Icons.arrow_upward),
+                                          onPressed: ()
+                                          {
+                                            MapObject newObject;
+                                            Offset off = Offset(object.offset.dx, object.offset.dy - 0.01);
+
+                                            newObject = MapObject(
+                                              child: Container(
+                                                color: Colors.red,
+                                              ),
+                                              offset: off,
+                                              size: Size(100, 100),
+                                            );
+                                            addMapObject(newObject);
+                                            if(object != null) {
+                                              removeMapObject(object);
+                                            }
+                                            object = newObject;
+
+                                          },
+                                        ),
+                                        IconButton(
+                                          color: Colors.red,
+                                          icon: Icon(Icons.arrow_downward),
+                                          onPressed: ()
+                                          {
+                                            MapObject newObject;
+                                            Offset off = Offset(object.offset.dx, object.offset.dy + 0.01);
+
+                                            newObject = MapObject(
+                                              child: Container(
+                                                color: Colors.red,
+                                              ),
+                                              offset: off,
+                                              size: Size(100, 100),
+                                            );
+                                            addMapObject(newObject);
+                                            if(object != null) {
+                                              removeMapObject(object);
+                                            }
+                                            object = newObject;
+                                          },
+                                        ),
+                                      ]
                                   ),
-                                  offset: off,
-                                  size: Size(100, 100),
-                                );
-                                addMapObject(newObject);
-                                if(object != null) {
-                                  removeMapObject(object);
-                                }
-                                object = newObject;
-                              },
-                            ),
-                            IconButton(
-                              color: Colors.red,
-                              icon: Icon(Icons.arrow_upward),
-                              onPressed: ()
-                              {
-                                MapObject newObject;
-                                Offset off = Offset(object.offset.dx, object.offset.dy - 0.01);
-
-                                newObject = MapObject(
-                                  child: Container(
-                                    color: Colors.red,
-                                  ),
-                                  offset: off,
-                                  size: Size(100, 100),
-                                );
-                                addMapObject(newObject);
-                                if(object != null) {
-                                  removeMapObject(object);
-                                }
-                                object = newObject;
-
-                              },
-                            ),
-                            IconButton(
-                              color: Colors.red,
-                              icon: Icon(Icons.arrow_downward),
-                              onPressed: ()
-                              {
-                                MapObject newObject;
-                                Offset off = Offset(object.offset.dx, object.offset.dy + 0.01);
-
-                                newObject = MapObject(
-                                  child: Container(
-                                    color: Colors.red,
-                                  ),
-                                  offset: off,
-                                  size: Size(100, 100),
-                                );
-                                addMapObject(newObject);
-                                if(object != null) {
-                                  removeMapObject(object);
-                                }
-                                object = newObject;
-                              },
-                            ),
-                           ]
-                        ),
-                        Column(
-                          children: <Widget>[
-                            FlatButton(onPressed: () {
-
-                              Dialog choiseDialog = Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0)),
-                                //this right here
-                                child: Container(
-                                  height: 300.0,
-                                  width: 300.0,
-
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Column(
                                     children: <Widget>[
-                                      Padding(padding: EdgeInsets.only(top: 50.0)),
                                       FlatButton(onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                          child: Text('Choose Table', style: TextStyle(
-                                              color: Colors.purple, fontSize: 18.0),))
 
+                                        Dialog choiseDialog = Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(12.0)),
+                                          //this right here
+                                          child: Container(
+                                            height: 300.0,
+                                            width: 300.0,
+
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Padding(padding: EdgeInsets.only(top: 50.0)),
+                                                FlatButton(onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                    child: Text('Choose Table', style: TextStyle(
+                                                        color: Colors.purple, fontSize: 18.0),))
+
+
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                        showDialog(context: context,
+                                            builder: (BuildContext context) => choiseDialog);
+
+                                        //Navigator.of(context).pop();
+                                      }, child: Text("abe"),
+                                      ),
 
                                     ],
+
                                   ),
-                                ),
-                              );
-                              showDialog(context: context,
-                                  builder: (BuildContext context) => choiseDialog);
-
-                              //Navigator.of(context).pop();
-                            }, child: Text("abe"),
+                                ],
+                              ),
                             ),
+                          );
+                          Navigator.of(context).pop();
+                          showDialog(context: context,
+                              builder: (BuildContext context) => moveDialog);
 
-                          ],
-
-                        ),
+                        },
+                            child: Text('Move Table', style: TextStyle(
+                                color: Colors.purple, fontSize: 18.0),))
                       ],
                     ),
                   ),
                 );
                 showDialog(context: context,
-                    builder: (BuildContext context) => errorDialog);
+                    builder: (BuildContext context) => choiceDialog);
               }
               else
                 {
-                  Dialog errorDialog = Dialog(
+
+                  Dialog choiceDialog = Dialog(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0)),
                     //this right here
@@ -364,18 +390,19 @@ class _ImageViewportState extends State<ImageViewport> {
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 50.0)),
                           FlatButton(onPressed: () {
+
                             Navigator.of(context).pop();
                           },
-                              child: Text('Choose Table', style: TextStyle(
+                              child: Text('Choose table', style: TextStyle(
                                   color: Colors.purple, fontSize: 18.0),))
-
-
                         ],
                       ),
                     ),
                   );
                   showDialog(context: context,
-                      builder: (BuildContext context) => errorDialog);
+                      builder: (BuildContext context) => choiceDialog);
+
+
                 }
             },
 
