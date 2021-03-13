@@ -1,35 +1,61 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import '../database.dart';
+import '../globalconfig.dart';
 
-import 'dragRoute.dart';
-import 'indoor_map.dart';
-import 'login_screen.dart';
+class VenueClass
+{
+  List<String> nameList;
+  List<AssetImage> imagelist;
+}
 
 class venue extends StatefulWidget
 {
   @override _venueActivity
   createState() => _venueActivity();
-
-
 }
 
 class _venueActivity extends State<venue>
 {
+
+  bool _loading = true;
+  // LAV SØGEFUNKTION
   List<ListItem<Image>> list;
   var imag = [
+
     Image.asset("images/andys.png"),
     Image.asset("images/hive.png"),
     Image.asset("images/liquor.jpg"),
     Image.asset("images/panda.jpg"),
     Image.asset("images/liquor.jpg")
   ];
-  @override
 
+  void imageload() async
+  {
+    final Completer<void> completer = Completer<void>();
+
+    for(int i = 0; i < 2; i++)
+      {
+        Image img = new Image.network("http://192.168.43.161:3002/establishments$i");
+            img.image.resolve(ImageConfiguration()).addListener(ImageStreamListener((ImageInfo info, bool syncCall) => completer.complete()));
+        await completer.future;
+        imag[i] = img;
+
+        if (mounted) {
+          setState(() {
+            _loading = false;
+          });
+        }
+      }
+  }
+
+  @override
   void initState()
   {
     super.initState();
+    imageload();
     populateData();
   }
 
@@ -38,8 +64,6 @@ class _venueActivity extends State<venue>
     for (int i = 0; i < 5; i++)
       list.add(ListItem<Image>(imag[i]));
   }
-
-
 
   @override Widget
   build(BuildContext context)
@@ -57,88 +81,30 @@ class _venueActivity extends State<venue>
   }
   Widget _getListItemTile(BuildContext context, int index)
   {
-
-    var age = 25;
-
-    List<String> iceCreamToppings = <String>[
-      'Hot Fudge',
-      'Sprinkles',
-      'Caramel',
-      'Oreos',
-    ];
-    List<String> selectedIceCreamToppings = <String>[
-      'Hot Fudge',
-      'Sprinkles',
-    ];
-
-    //List<Widget> movableItems = [new MoveableStackItem(), new MoveableStackItem()];
-
     return GestureDetector(
     onTap: () {
+      venueId = index;
       showDialog(
         context: context,
         child: Dialog(
-            child: new MapDemo(notifyParent:(){
-
+            child: new MapDemo(notifyParent:()
+            {
             },
-            /*
-            Scaffold(
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    movableItems.add(MoveableStackItem());
-                  });
-                },
-              ),
-              body:
-              Container(
-                height: 500,
-                child:
-                Stack(
-                  children: movableItems,
-
-                ),
-
-              ),
-            )
-                */
           ),
         ),
-
       );
 
-      /*
-          showMaterialResponsiveDialog(
-            context: context,
-            child: Center(
-              child: Container(
-              padding: EdgeInsets.all(30.0),
-              child: Text(
-              "This is the base dialog widget for the pickers. Unlike the off-the-shelf Dialog widget, it handles landscape orientations. You may place any content here you desire.",
-                style: TextStyle(
-                fontSize: 20.0,
-                fontStyle: FontStyle.italic,
-              ),
-              ),
-              ),
-            ),
-          );
-*/
-          if (list.any((item) => item.isSelected))
+      if (list.any((item) => item.isSelected))
           {
             setState(()
             {
               list[index].isSelected = !list[index].isSelected;
             }
             );
-
           }
     },
-
     onLongPress: ()
     {
-
-
       setState(()
       {
         list[index].isSelected = true;

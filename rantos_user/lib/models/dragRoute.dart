@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zerker/zerker.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
-import 'indoor_map.dart';
+import '../database.dart';
 import 'login_screen.dart';
 
 class MyApp extends StatelessWidget {
