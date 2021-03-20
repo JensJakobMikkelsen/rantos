@@ -433,7 +433,7 @@ class _ImageViewportState extends State<ImageViewport> with AfterLayoutMixin<Ima
                                 Tables newTable = tableList.elementAt(i);
                                 if((newTable.xcoord == object.offset.dx) && (newTable.ycoord == object.offset.dy))
                                   {
-                                    removeTableFromDatabase(tableList.elementAt(i));
+                                    //removeTableFromDatabase(tableList.elementAt(i));
                                     //tableList.removeAt(i);
                                     break;
                                   }
@@ -539,7 +539,7 @@ class _ImageViewportState extends State<ImageViewport> with AfterLayoutMixin<Ima
                   size: Size(50, 50),
                 );
                 Tables newTables = new Tables(null, 0, "jens", newObjectOffset.dx, newObjectOffset.dy);
-                persistTable(newTables);
+                //persistTable(newTables);
 
               }
               else {
@@ -572,6 +572,7 @@ class _ImageViewportState extends State<ImageViewport> with AfterLayoutMixin<Ima
 
   @override
   void afterFirstLayout(BuildContext context) {
+
     final Future fut = getTablesFromDatabase();
 
     fut.then((resp) {
@@ -773,7 +774,7 @@ var abe;
 var isLoaded = true;
 class _MapDemoState extends State<MapDemo> {
 
-  Image _image = new Image.network("http://192.168.43.161:3002/images/$venueId");
+  Image _image = Image.asset("images/map_reshaped.png");//new Image.network("http://192.168.43.161:3002/images/$venueId");
   bool _loading = true;
 
 
@@ -841,7 +842,17 @@ class _MapDemoState extends State<MapDemo> {
                         child: _loading ? new Container(
                           height: 40.0,
                           color: Colors.transparent,
-                          child: Center(
+                          child: ZoomContainer(
+                            zoomLevel: 2,
+                            imageProvider: _image.image,
+                            objects:
+                            List.generate(_objects.length, (index) {
+                              return (_objects[index]);
+                            }),
+
+                          ),
+                          /*
+                          Center(
                             child: RaisedButton(
                               onPressed: () {
                               },
@@ -849,6 +860,8 @@ class _MapDemoState extends State<MapDemo> {
                               color: Colors.white,
                             ),
                           ),
+                          '/
+                           */
                         )
                             :
                         ZoomContainer(
